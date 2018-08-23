@@ -1,0 +1,17 @@
+{#用来渲染新的消息用的#}
+
+<li>
+    <img src="{{ message.from_user.profile.get_picture }}" class="picture">
+    <div>
+        <h5>
+            <small class="pull-right">
+                {#          注意Django的时间格式化写法#}
+                {{ message.date|date:'N d G:i' }}
+            </small>
+            <a href="{% url 'profile' message.from_user.username %}">
+                {{ message.from_user.profile.get_screen_name }}
+            </a>
+        </h5>
+        {{ message.message }}
+    </div>
+</li>

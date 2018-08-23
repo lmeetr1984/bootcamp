@@ -1,0 +1,28 @@
+{#分页的template#}
+
+{#所有传入的paginator其实都是经过paginator修饰过的queryset，含有分页的相关属性和函数#}
+
+<ul class="pagination">
+    {#    如果有向前分页的话#}
+    {% if paginator.has_previous %}
+        <li><a href="?page={{ paginator.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+
+    {# 循环打印分页 #}
+    {% for i in paginator.paginator.page_range %}
+        {#      如果不是当前页面的话，那么需要加入url#}
+        {% if paginator.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+    {# 如果有后续页面的话 #}
+    {% if paginator.has_next %}
+        <li><a href="?page={{ paginator.next_page_number }}">&raquo;</a></li>
+    {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+</ul>

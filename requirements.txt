@@ -1,0 +1,6 @@
+Django==1.11
+gunicorn==19.5.0
+Pillow==3.1.1
+Markdown==2.4.1
+bleach==2.0.0
+django_extensions==1.7.9

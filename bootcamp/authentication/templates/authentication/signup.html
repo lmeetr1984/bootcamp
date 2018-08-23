@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load staticfiles i18n %}
+
+{% block head %}
+    <link href="{% static 'css/signup.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block body %}
+    <h1 class="logo"><a href="{% url 'home' %}">Bootcamp</a></h1>
+    <div class="signup">
+        <h2>{% trans 'Sign up for Bootcamp' %}</h2>
+        <form action="{% url 'signup' %}" method="post" role="form">
+            {% csrf_token %}
+
+            {# form的所有可见字段#}
+            {% for field in form.visible_fields %}
+                <div class="form-group{% if field.errors %} has-error{% endif %}">
+                    <label for="{{ field.label }}">{{ field.label }}</label>
+                    {# 这一行把field打印出来#}
+                    {{ field }}
+
+                    {# 如果需要显示帮助信息 #}
+                    {% if field.help_text %}
+                        <span class="help-block">{{ field.help_text|safe }}</span>
+                    {% endif %}
+
+                    {# 如果有error的话，那么循环把error都打印出来 #}
+                    {# 注意写法 #}
+                    {% for error in field.errors %}
+                        <label class="control-label">{{ error }}</label>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-lg">{% trans 'Create an account' %}</button>
+        </form>
+    </div>
+{% endblock body %}

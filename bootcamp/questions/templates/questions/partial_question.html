@@ -1,0 +1,49 @@
+{% load humanize %}
+
+{#渲染问题列表的一个问题#}
+
+<div class="panel panel-default question" question-id="{{ question.id }}">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {% if question.has_accepted_answer %}
+                <span class="glyphicon glyphicon-ok"></span>
+            {% endif %}
+            <a href="{% url 'question' question.pk %}">{{ question.title }}</a>
+        </h3>
+    </div>
+    <div class="panel-body clearfix">
+        <div class="question-info">
+            <div class="info">
+                {#                答案个数#}
+                <h5><span class="glyphicon glyphicon-comment"></span> Answers</h5>
+                <span>{{ question.get_answers_count }}</span>
+            </div>
+            <div class="info">
+                {#                收藏个数#}
+                <h5><span class="glyphicon glyphicon-star"></span> Favorites</h5>
+                <span>{{ question.favorites }}</span>
+            </div>
+        </div>
+        {#    用户个人信息#}
+        <div class="question-user">
+            <a href="{% url 'profile' question.user.username %}"><img src="{{ question.user.profile.get_picture }}"
+                                                                      class="user"></a>
+            <a href="{% url 'profile' question.user.username %}"
+               class="username">{{ question.user.profile.get_screen_name }}</a>
+            <span class="asked">asked {{ question.update_date|naturaltime }}</span>
+        </div>
+        {#    问题的预览#}
+        <div class="question-description">
+            {{ question.get_description_preview_as_markdown|safe }}
+        </div>
+
+        {#    tag 列表#}
+        {% if question.get_tags %}
+            <p>
+                {% for tag in question.get_tags %}
+                    <span class="label label-primary">{{ tag }}</span>
+                {% endfor %}
+            </p>
+        {% endif %}
+    </div>
+</div>

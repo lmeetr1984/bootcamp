@@ -1,0 +1,29 @@
+{% load i18n %}
+
+{#用来加载所有conversation列表的#}
+
+
+<div class="list-group">
+    {% comment %}
+  <a href="{% url 'inbox' %}" class="list-group-item{% if active == 'inbox' %} active{% endif %}">
+    <span>{% trans 'Inbox' %}</span>
+    <span class="badge">0</span>
+  </a>
+  {% endcomment %}
+
+    {% for conversation in conversations %}
+        {#        这个地方的url，要传入参数#}
+        {#        没有传入id，是因为想让url看起来好看restful，便于seo#}
+        <a href="{% url 'messages' conversation.user.username %}"
+           class="list-group-item{% if active == conversation.user.username %} active{% endif %}">
+            <img src="{{ conversation.user.profile.get_picture }}" class="conversation-portrait">
+            {{ conversation.user.profile.get_screen_name }}
+            {% if conversation.unread > 0 %}
+                <span class="badge pull-right">{{ conversation.unread }}</span>
+            {% endif %}
+        </a>
+    {% empty %}
+        {#        如果没有找到的话，那么就发起一个新的会话#}
+        <a href="#" class="list-group-item">{% trans 'Start a conversation' %}</a>
+    {% endfor %}
+</div>
